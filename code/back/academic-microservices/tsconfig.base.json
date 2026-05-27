@@ -4,10 +4,14 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "importHelpers": true,
-    "isolatedModules": true,
+
+    "isolatedModules": false,
+
     "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+
+    "module": "commonjs",
+    "moduleResolution": "node",
+
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -16,6 +20,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@org/source"]
+
+    "customConditions": ["@org/source"],
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false
   }
 }
