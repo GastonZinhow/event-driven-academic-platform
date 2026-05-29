@@ -9,8 +9,8 @@
 
     "lib": ["es2022"],
 
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
 
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -20,8 +20,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-
-    "customConditions": ["@org/source"],
 
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
