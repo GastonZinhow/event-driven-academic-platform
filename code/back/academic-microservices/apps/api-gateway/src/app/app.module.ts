@@ -4,9 +4,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentModule } from '../modules/student/student.module';
 import { EnrollmentModule } from '../modules/enrollment/enrollment.module';
+import { RabbitMQModule } from '@org/rabbitmq';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
-  imports: [StudentModule, EnrollmentModule,
+  imports: [StudentModule, EnrollmentModule, RabbitMQModule, StudentModule, EnrollmentModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -33,5 +36,8 @@ import { EnrollmentModule } from '../modules/enrollment/enrollment.module';
       }),
     }),
   ],
+  controllers: [AppController],
+
+  providers: [AppService],
 })
 export class AppModule { }

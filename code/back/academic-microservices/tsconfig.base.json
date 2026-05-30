@@ -12,6 +12,20 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
 
+    "baseUrl": ".",
+
+    "paths": {
+      "@org/contracts": [
+        "libs/contracts/src/index.ts"
+      ],
+
+      "@org/rabbitmq": [
+        "libs/rabbitmq/src/index.ts"
+      ]
+    },
+
+    "types": ["node"],
+
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,

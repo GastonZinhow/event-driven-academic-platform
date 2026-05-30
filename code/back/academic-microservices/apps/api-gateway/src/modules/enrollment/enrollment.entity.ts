@@ -2,11 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-import { Student } from '../../student/entities/student.entity';
 
 @Entity('enrollments')
 export class Enrollment {
@@ -14,14 +11,11 @@ export class Enrollment {
   id!: string;
 
   @Column()
-  courseName!: string;
+  studentId!: string;
 
-  @ManyToOne(() => Student, {
-    eager: true,
-    onDelete: 'CASCADE',
-  })
-  student!: Student;
+  @Column()
+  course!: string;
 
   @CreateDateColumn()
-  enrolledAt!: Date;
+  createdAt!: Date;
 }
