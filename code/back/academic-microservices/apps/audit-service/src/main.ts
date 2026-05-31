@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix(globalPrefix);
 
-  const port = process.env.PORT || 3001;
+  const port = 3001;
 
   await app.listen(port);
 
