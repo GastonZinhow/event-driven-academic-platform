@@ -1,4 +1,3 @@
-
 import { Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,47 +19,31 @@ export class EnrollmentService {
     private readonly rabbitmqService: RabbitMQService,
   ) {}
 
-  async create(
-    createEnrollmentDto: CreateEnrollmentDto,
-  ) {
-    const enrollment =
-      this.enrollmentRepository.create(
-        createEnrollmentDto,
-      );
+  async create(createEnrollmentDto: CreateEnrollmentDto) {
+    const enrollment = this.enrollmentRepository.create(createEnrollmentDto);
 
-    const savedEnrollment =
-      await this.enrollmentRepository.save(
-        enrollment,
-      );
+    const savedEnrollment = await this.enrollmentRepository.save(enrollment);
 
-    await this.rabbitmqService.publish(
-      'enrollment.created',
+    await this.rabbitmqService.publish('enrollment.created', {
+      eventId: randomUUID(),
 
-      {
-        eventId: randomUUID(),
+      correlationId: randomUUID(),
 
-        correlationId: randomUUID(),
+      publishedAt: new Date().toISOString(),
 
-        occurredAt: new Date(),
+      data: {
+        id: savedEnrollment.id,
 
-        data: {
-          id: savedEnrollment.id,
+        studentId: savedEnrollment.studentId,
 
-          studentId:
-            savedEnrollment.studentId,
+        course: savedEnrollment.course,
 
-          course:
-            savedEnrollment.course,
-
-          createdAt:
-            savedEnrollment.createdAt,
-        },
+        createdAt: savedEnrollment.createdAt,
       },
-    );
+    });
 
     return {
-      message:
-        'Enrollment created successfully',
+      message: 'Enrollment created successfully',
 
       enrollment: savedEnrollment,
     };

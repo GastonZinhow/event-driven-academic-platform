@@ -37,16 +37,25 @@ export class AuditService implements OnModuleInit {
 
           this.logger.log(`Auditing event: ${routingKey}`);
 
-          const saved = await this.auditRepository.save({
+          await this.auditRepository.save({
             eventType: routingKey,
             payload,
           });
 
-          console.log(saved);
-
           channel.ack(message);
 
-          this.logger.log(`Audit saved for ${routingKey}`);
+          const latencyMs =
+            Date.now() - new Date(payload.publishedAt).getTime();
+
+          this.logger.log(
+            JSON.stringify({
+              service: 'audit-service',
+              event: routingKey,
+              correlationId: payload.correlationId,
+              latencyMs,
+              status: 'AUDITED',
+            }),
+          );
         } catch (error) {
           this.logger.error('Audit processing failed', error);
 

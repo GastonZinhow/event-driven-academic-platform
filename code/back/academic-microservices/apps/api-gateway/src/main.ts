@@ -25,7 +25,7 @@ async function bootstrap() {
   await app.listen(port);
 
   Logger.log(
-    `🚀 API-GATEWAY is running on: http://localhost:${port}/${globalPrefix}`,
+    `🌐 API-GATEWAY is running on: http://localhost:${port}/${globalPrefix}`,
   );
 }
 

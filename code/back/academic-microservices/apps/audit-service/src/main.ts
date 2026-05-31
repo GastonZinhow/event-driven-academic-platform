@@ -25,7 +25,7 @@ async function bootstrap() {
   await app.listen(port);
 
   Logger.log(
-    `🚀 AUDIT SERVICE is running on: http://localhost:${port}/${globalPrefix}`,
+    `⚖ AUDIT SERVICE is running on: http://localhost:${port}/${globalPrefix}`,
   );
 }
 

@@ -8,7 +8,6 @@ import { randomUUID } from 'crypto';
 
 import { RabbitMQService } from '@org/rabbitmq';
 
-
 import { CreateStudentDto } from './dto/create-student.dto';
 import { Student } from './student.entity';
 
@@ -21,43 +20,28 @@ export class StudentService {
     private readonly rabbitmqService: RabbitMQService,
   ) {}
 
-  async create(
-    createStudentDto: CreateStudentDto,
-  ) {
+  async create(createStudentDto: CreateStudentDto) {
+    const student = this.studentRepository.create(createStudentDto);
 
-    const student =
-      this.studentRepository.create(
-        createStudentDto,
-      );
+    const savedStudent = await this.studentRepository.save(student);
 
-    const savedStudent =
-      await this.studentRepository.save(
-        student,
-      );
+    await this.rabbitmqService.publish('student.created', {
+      eventId: randomUUID(),
 
-    await this.rabbitmqService.publish(
-      'student.created',
+      correlationId: randomUUID(),
 
-      {
-        eventId: randomUUID(),
+      publishedAt: new Date().toISOString(),
 
-        correlationId: randomUUID(),
-
-        occurredAt: new Date(),
-
-        data: {
-          id: savedStudent.id,
-          name: savedStudent.name,
-          email: savedStudent.email,
-          createdAt:
-            savedStudent.createdAt,
-        },
+      data: {
+        id: savedStudent.id,
+        name: savedStudent.name,
+        email: savedStudent.email,
+        createdAt: savedStudent.createdAt,
       },
-    );
+    });
 
     return {
-      message:
-        'Student created successfully',
+      message: 'Student created successfully',
 
       student: savedStudent,
     };
